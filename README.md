@@ -1,6 +1,4 @@
-<img src="assets/postnl-logo.png?raw=true" width="100" style="background-color:none">
-
-# Cloud Engineer Assessment
+# Cloud Data Engineer Assessment
 
 ## What to expect?
 We understand that your time is valuable, and in anyone's busy schedule solving these exercises may constitute a fairly substantial chunk of time, so we really appreciate any effort you put in to helping us build a solid team.

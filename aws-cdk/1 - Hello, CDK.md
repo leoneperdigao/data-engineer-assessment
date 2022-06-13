@@ -1,38 +1,42 @@
 # 1 - Hello, CDK
 
-In this question, we want you to write some AWS CDK code. We want you to build a simple CRUD application to manage books. Roughly, the model can be like that:
+A company has multiple accounts under the same organization and it uses a consolidated billing to follow up on the overall costs. 
+AWS provides a report in CSV format of all detailed costs. This report can be send to bucket of your S3, as defined in the Cost and Usage reports documentation: https://docs.aws.amazon.com/cur/latest/userguide/cur-create.html.
 
-```json
-{
-   "name": "<name of the book>",
-   "isbn": "<universal identifier of the book>",
-   "authors": "<authors of the book>",
-   "languages": "<languages the book is available>",
-   "countries": "<countries where the book is available>",
-   "numberOfPages": "<number of pages of the book>",
-   "releaseDate": "<release date of the book>",
-}
-```
+The company wants to provide useful and organized data on the costs of your infrastructure, thus facilitating resource optimization.
 
-## Requirements
+To address this scenario, we want you to write some AWS CDK code. We want you to build a simple app that creates the necessary to transfer this data towards a relational database.
 
-* The client (the entity making the requests) MUST be able to: add one or more items, remove an item for a table, and query the items still remaining for a table.
-* The application MUST, upon update request, store the item with all updated fields, except `isbn`.
-* The application MUST, upon creation request, store the item with all the fields.
-* The application MUST, upon deletion request, remove a specified item for a specified `isbn`.
-* The application MUST, upon query request, show all items for a specified filter.
-* The application MUST accept at least 10 simultaneous incoming add/remove/query requests.
+The data has the following format: [See original file](data-engineer-assessment/assets/data.csv). The table below, shows the same data in a more friendly format:
 
-Some key points to take in mind when doing this:
+|InvoiceID|PayerAccountId|LinkedAccountId|RecordType|RecordId|ProductName                 |RateId   |SubscriptionId|PricingPlanId|UsageType             |Operation        |AvailabilityZone|ReservedInstance|ItemDescription                                                        |UsageStartDate     |UsageEndDate       |UsageQuantity|Rate  |Cost     |ResourceId|aws:createdBy|user:Name|
+|---------|--------------|---------------|----------|--------|----------------------------|---------|--------------|-------------|----------------------|-----------------|----------------|----------------|-----------------------------------------------------------------------|-------------------|-------------------|-------------|------|---------|----------|-------------|---------|
+|12345    |12345         |12345          |LineItem  |        |Amazon Elastic Compute Cloud|213003131|22183258      |10890459     |HeavyUsage:m3.xlarge  |RunInstances:0002|                |Y               |USD 0.383 hourly fee per Windows (Amazon VPC), m3.xlarge instance      |2019-08-01 00:00:00|2019-08-31 23:59:59|744          |0.383 |284.952  |          |             |         |
+|12345    |12345         |12345          |LineItem  |        |Amazon Elastic Compute Cloud|213158403|1663069801    |10958554     |HeavyUsage:m4.10xlarge|RunInstances     |                |Y               |USD 1.4249 hourly fee per Linux/UNIX (Amazon VPC), m4.10xlarge instance|2019-08-01 00:00:00|2019-08-31 23:59:59|744          |1.4249|1060.1256|          |             |         |
+|12345    |12345         |12345          |LineItem  |        |Amazon Elastic Compute Cloud|579612484|22183258      |59706187     |BoxUsage:m3.xlarge    |RunInstances     |us-east-1c      |N               |$0.266 per On Demand Linux m3.xlarge Instance Hour                     |2019-08-01 00:00:00|2019-08-01 01:00:00|1            |0.266 |0.266    |          |             |app A    |
+|12345    |12345         |12345          |LineItem  |        |Amazon Elastic Compute Cloud|579612484|22183258      |59706187     |BoxUsage:m3.xlarge    |RunInstances     |us-east-1c      |N               |$0.266 per On Demand Linux m3.xlarge Instance Hour                     |2019-08-01 01:00:00|2019-08-01 02:00:00|1            |0.266 |0.266    |          |             |app A    |
+|12345    |12345         |12345          |LineItem  |        |Amazon Elastic Compute Cloud|579612484|22183258      |59706187     |BoxUsage:m3.xlarge    |RunInstances     |us-east-1d      |N               |$0.266 per On Demand Linux m3.xlarge Instance Hour                     |2019-08-01 03:00:00|2019-08-01 03:00:00|1            |0.266 |0.266    |          |             |app A    |
+|12345    |12345         |12345          |LineItem  |        |Amazon Elastic Compute Cloud|579612484|22183258      |59706187     |BoxUsage:m3.xlarge    |RunInstances     |us-east-1c      |N               |$0.266 per On Demand Linux m3.xlarge Instance Hour                     |2019-08-01 03:00:00|2019-08-01 04:00:00|1            |0.266 |0.266    |          |             |app A    |
+|12345    |12345         |12345          |LineItem  |        |Amazon Elastic Compute Cloud|579612484|22183258      |59706187     |BoxUsage:m3.xlarge    |RunInstances     |us-east-1c      |N               |$0.266 per On Demand Linux m3.xlarge Instance Hour                     |2019-08-01 04:00:00|2019-08-01 05:00:00|1            |0.266 |0.266    |          |             |app A    |
+|12345    |12345         |12345          |LineItem  |        |Amazon Elastic Compute Cloud|579612484|22183258      |59706187     |BoxUsage:m3.xlarge    |RunInstances     |us-east-1d      |N               |$0.266 per On Demand Linux m3.xlarge Instance Hour                     |2019-08-01 05:00:00|2019-08-01 06:00:00|1            |0.266 |0.266    |          |             |app A    |
+|12345    |12345         |12345          |LineItem  |        |Amazon Elastic Compute Cloud|213158402|1663069801    |10958554     |BoxUsage:m4.large     |RunInstances     |us-east-1a      |Y               |Linux/UNIX (Amazon VPC), m4.10xlarge reserved instance applied         |2019-08-01 00:00:00|2019-08-01 01:00:00|1            |0.1   |0.1      |          |             |app B    |
+|12345    |12345         |12345          |LineItem  |        |Amazon Elastic Compute Cloud|213158402|1663069801    |10958554     |BoxUsage:m4.large     |RunInstances     |us-east-1c      |Y               |Linux/UNIX (Amazon VPC), m4.10xlarge reserved instance applied         |2019-08-01 01:00:00|2019-08-01 02:00:00|1            |0.1   |0.1      |          |             |app B    |
+|12345    |12345         |12345          |LineItem  |        |Amazon Elastic Compute Cloud|213158402|1663069801    |10958554     |BoxUsage:m4.large     |RunInstances     |us-east-1c      |Y               |Linux/UNIX (Amazon VPC), m4.10xlarge reserved instance applied         |2019-08-01 03:00:00|2019-08-01 04:00:00|1            |0.1   |0.1      |          |             |app B    |
+|12345    |12345         |12345          |LineItem  |        |Amazon Elastic Compute Cloud|579612484|22183258      |59706187     |BoxUsage:m3.xlarge    |RunInstances     |us-east-1c      |N               |$0.266 per On Demand Linux m3.xlarge Instance Hour                     |2019-08-01 00:00:00|2019-08-01 01:00:00|1            |0.266 |0.266    |          |             |app B    |
+|12345    |12345         |12345          |LineItem  |        |Amazon Elastic Compute Cloud|579612484|22183258      |59706187     |BoxUsage:m3.xlarge    |RunInstances     |us-east-1c      |N               |$0.266 per On Demand Linux m3.xlarge Instance Hour                     |2019-08-01 01:00:00|2019-08-01 02:00:00|1            |0.266 |0.266    |          |             |app B    |
+|12345    |12345         |12345          |LineItem  |        |Amazon Elastic Compute Cloud|579612484|22183258      |59706187     |BoxUsage:m3.xlarge    |RunInstances     |us-east-1d      |N               |$0.266 per On Demand Linux m3.xlarge Instance Hour                     |2019-08-01 03:00:00|2019-08-01 04:00:00|1            |0.266 |0.266    |          |             |app B    |
 
-Do all use cases need to be handled (in the same way) by the admin or the end-user.
-- Which data should (not) be shared
-- How are exceptions handled & mapped
-- Consistency in the specifications
-- Backward compatibility
+
+
+## Details
+
+* The data is stored in a S3 bucket.
+* The data must be storead in a relational database, preferably PostgreSQL.
+* The data must be segmented and stored accordingly its domains.
+   *  
 
 ## Note
 
-* You can use any language you feel more comfortable with, but we have a preference for `Typescript` for the CDK part and `Python` for any runtime routine.
+* You can use any language you feel more comfortable with, but we have a preference for `Python`.
 
 
