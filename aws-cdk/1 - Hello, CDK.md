@@ -7,7 +7,7 @@ The company wants to provide useful and organized data on the costs of your infr
 
 To address this scenario, we want you to write some AWS CDK code. We want you to build a simple app that creates the necessary to transfer this data towards a relational database.
 
-The data has the following format: [See original file](data-engineer-assessment/assets/data.csv). The table below, shows the same data in a more friendly format:
+The data has the following format: [See original file](../assets/data.csv). The table below, shows the same data in a more friendly format:
 
 |InvoiceID|PayerAccountId|LinkedAccountId|RecordType|RecordId|ProductName                 |RateId   |SubscriptionId|PricingPlanId|UsageType             |Operation        |AvailabilityZone|ReservedInstance|ItemDescription                                                        |UsageStartDate     |UsageEndDate       |UsageQuantity|Rate  |Cost     |ResourceId|aws:createdBy|user:Name|
 |---------|--------------|---------------|----------|--------|----------------------------|---------|--------------|-------------|----------------------|-----------------|----------------|----------------|-----------------------------------------------------------------------|-------------------|-------------------|-------------|------|---------|----------|-------------|---------|
