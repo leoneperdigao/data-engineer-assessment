@@ -13,18 +13,14 @@ You can do this however you see fit - you can email us a tarball, a pointer to d
 
 ## The Interview:
 After you submit your code, we will contact you to discuss and potentially arrange an online interview with some of the team.
-The interview will cover a wide range of technical and social aspects relevant to working at PostNL, but importantly for this exercise: we will also take the opportunity to step through your submitted code with you.
+The interview will cover a wide range of technical and social aspects relevant to working on our team, but importantly for this exercise: we will also take the opportunity to step through your submitted code with you.
 
 ## The Exercises:
-### 1. [AWS] Intermediate AWS Knowledge check
-This section contains 4 questions and the complete specification for these exercises can be found in the [aws/](/aws) directory.
+### 1. [AWS] AWS specific knowledge check on the Data domain
+This section contains 1 scenario-based question and the complete specification for this exercise can be found in the [aws/](/aws) directory.
 
-### 2. [AWS CDK] Build a simple CDK App
-This section contains 1 question and the complete specification for these exercises can be found in the [aws-cdk/](/aws-cdk) directory.
-
-### 3. [Problem Solving] Solve generic problems
+### 2. [Problem Solving] Solve generic problems
 This section contains 2 question and the complete specification for these exercises can be found in the [problem-solving/](/problem-solving) directory.
-
 
 ## F.A.Q.
 1) _Is it OK to share your solutions publicly?_
