@@ -3,7 +3,7 @@
 A company has multiple accounts under the same organization and it uses a consolidated billing to follow up on the overall costs. 
 AWS provides a report in CSV format of all detailed costs. This report can be send to bucket of your S3, as defined in the Cost and Usage reports documentation: https://docs.aws.amazon.com/cur/latest/userguide/cur-create.html.
 
-The company wants to provide useful and organized data on the costs of your infrastructure, thus facilitating resource optimization. The stakeholders are both technical and non-technical professionals, composed by team members that want to analyse their costs and also the high level management that wants to use the information to better support the planing and budget allocation.
+The company wants to provide useful and organized data on the costs of your infrastructure, thus facilitating resource optimization. The company's AWS usage is quickly growing and the stakeholders are expecting near real-time insights to better support their planing and budget allocation. The body of stakeholds is formed by both technical and non-technical professionals, composed by engineers, product owners and high level management.
 
 The data provided by AWS has the following format: [See original file](../assets/data.csv). The table below, shows the same data in a more friendly format:
 
@@ -28,4 +28,4 @@ We also would like you to prepare this case in a form of a demostration to be pr
 
 Feel free to design it in whatever tool that suits you best, such as [draw.io](https://draw.io), [Lucidchart](https://www.lucidchart.com/), PowerPoint, Word, and so on. We will be focusing on the overall picture and how you come across. For the PoC implementation, we would like you to use [AWS CDK](https://aws.amazon.com/cdk/) to develop the overall infrastructure part of the solution.
 
-We think the case is self-explanatory, but if you have questions or want to get things clear upfront, please reach out to us.
+We deliberately created a very open-ended question, so that you have a lot of freedom in designing a solution and there's room for creativity. However, if you feel that some key requirements are not clear enough, please reach out to us.
