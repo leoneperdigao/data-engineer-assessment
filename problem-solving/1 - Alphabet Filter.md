@@ -18,17 +18,29 @@ For a given definition of a class LetterFilter, complete its methods filter_vowe
 class LetterFilter:
     def init(self, s):
         self.s = s
+    
+    def validation(self):
+        vowels = [True for st in s if st not in "aeiou"]  
+        if ((s.isalpha()==False) | (all(value)==True)):
+            return True
+        else:
+            retrun False
 
     def filter_vowels(self):
-        # Enter your code here
-        # Return a string
-        return ""
+        if validation() == True:
+           return ""
+        for ch in "aeiou" :     
+            if ch in s :
+                s = s.replace(ch,"")
+        return s
 
     def filter_consonants(self):
-        # Enter your code here
-        # Return a string
-        
-        return ""
+        if validation() == True:
+           return ""
+        for ch in s :
+            if ch not in "aeiou" :
+                s = s.replace(ch,"")      
+        return s
     
 ```
 
